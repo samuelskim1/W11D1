@@ -12,15 +12,25 @@ export default function Form() {
     });
 
 
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState({});
 
     const validate = () => {
-        const currentErrors = [];
+        const currentErrors = {};
 
         // name validation
-        if (!user.Name) currentErrors.push("Name is missing.");
+        if (!user.Name) currentErrors["nameError"] = "Name is missing.";
         // email validation
-        if (!user.Email || !(user.Email.split("@").length === 2)) currentErrors.push("Email is invalid.")
+        if (!user.Email || !(user.Email.split("@").length === 2)) currentErrors["emailError"] = "Email is invalid.";
+        // phone number validation
+        if (!(user.Phone_number.length === 10)) currentErrors["phoneError"] = "Phone number is invalid.";
+        const nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+        for (let char of user.Phone_number) {
+            if (!nums.includes(char)) currentErrors["phoneError"] = "Phone number is invalid.";
+        }
+        // phone type validation
+        if (user.Phone_number && !user.Phone_type) currentErrors["phoneTypeError"] = "Please select Phone type.";
+        // bio length validation
+        if (user.Bio.length > 280) currentErrors["bioLengthError"] = "Bio has a character limit of 280."
 
         return currentErrors;
     };
@@ -28,8 +38,13 @@ export default function Form() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const currentErrors = validate();
+        setErrors(currentErrors);
+        if (Object.entries(currentErrors).length) {
+            console.log("errors!");
+        } else {
+            console.log("valid form submission!");
+        }
     };
-
 
     const handleChange = (field) => {
         return (e) => {
@@ -45,19 +60,31 @@ export default function Form() {
         <>
             <form id="userform" onSubmit={handleSubmit}>
                 <input type="text" placeholder="Name" value={user.Name} onChange={handleChange("Name")} />
+                <br />
+                <p>{errors["nameError"]}</p>
+                <br />
                 <input type="email" placeholder="Email" value={user.Email} onChange={handleChange("Email")} />
-                <input type="text" placeholder="Phone_number" value={user.Phone_number} onChange={handleChange("Phone_number")} />
+                <br />
+                <p>{errors["emailError"]}</p>
+                <br />
+                <input type="text" placeholder="Phone number" value={user.Phone_number} onChange={handleChange("Phone_number")} />
+                <br />
+                <p>{errors["phoneError"]}</p>
+                <br />
 
-                {/* <select name="Phone_type">
+                <select name="Phone_type" value="Phone type" onChange={handleChange("Phone_type")}>
+                    <option value="Phone type" disabled>Phone type</option>
                     <option value="Home">Home</option>
                     <option value="Work">Work</option>
                     <option value="Mobile">Mobile</option>
                 </select>
+                <br />
+                <p>{errors["phoneTypeError"]}</p>
+                <br />
 
-                <label>Instructor
+                {/* <label>Instructor
                     <input type="radio" name="Instructor"/>
                 </label>
-
                 <label>Student
                     <input type="radio" name="Student" />
                 </label>
@@ -68,8 +95,10 @@ export default function Form() {
 
                 <input type="submit" value="Submit" />
             </form>
-        
-            {/* <textarea name="Bio" form="userform" value={user.Bio}>Enter text here...</textarea> */}
+
+            <textarea name="Bio" form="userform" value={user.Bio} maxLength="280" onChange={handleChange("Bio")}>Enter text here...</textarea>
+            <p>{errors["bioLengthError"]}</p>
+            <br />
         </>
     
     );
