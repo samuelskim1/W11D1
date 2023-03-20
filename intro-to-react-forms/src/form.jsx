@@ -9,31 +9,44 @@ export default function Form() {
         Staff: "",
         Bio: "",
         Sign_up_for_email_notifications: ""
-    })
+    });
 
 
-    const handleChange = function(field) {
-        return function(e) {
+    const [errors, setErrors] = useState([]);
+
+    const validate = () => {
+        const currentErrors = [];
+
+        // name validation
+        if (!user.Name) currentErrors.push("Name is missing.");
+        // email validation
+        if (!user.Email || !(user.Email.split("@").length === 2)) currentErrors.push("Email is invalid.")
+
+        return currentErrors;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const currentErrors = validate();
+    };
+
+
+    const handleChange = (field) => {
+        return (e) => {
             const value = e.target.value;
             setUser({
                 ...user,
                 [field]: value
             });
-        }
-    }
-
-
-
-
-
-
+        };
+    };
 
     return (
         <>
-            <form id="userform">
-                <input type="text" placeholder="Name" value={user.Name} onChange={handleChange("Name")}/>
-                <input type="email" placeholder="Email" value={user.Email} onChange={handleChange("Email")}/>
-                <input type="text" placeholder="Phone_number" value={user.Phone_number} onChange={handleChange("Phone_number")}/>
+            <form id="userform" onSubmit={handleSubmit}>
+                <input type="text" placeholder="Name" value={user.Name} onChange={handleChange("Name")} />
+                <input type="email" placeholder="Email" value={user.Email} onChange={handleChange("Email")} />
+                <input type="text" placeholder="Phone_number" value={user.Phone_number} onChange={handleChange("Phone_number")} />
 
                 {/* <select name="Phone_type">
                     <option value="Home">Home</option>
@@ -52,7 +65,8 @@ export default function Form() {
                 <label>Sign Up for Email Notifications
                     <input type="checkbox" />
                 </label> */}
-                
+
+                <input type="submit" value="Submit" />
             </form>
         
             {/* <textarea name="Bio" form="userform" value={user.Bio}>Enter text here...</textarea> */}
