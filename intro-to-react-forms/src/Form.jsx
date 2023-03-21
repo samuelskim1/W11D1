@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 
 export default function Form() {
   const [user, setUser] = useState({
@@ -15,7 +15,7 @@ export default function Form() {
     return ((e) => {
       setUser({
         ...user,
-        [field]: e.target.value;
+        [field]: e.target.value
       });
     });
   };
