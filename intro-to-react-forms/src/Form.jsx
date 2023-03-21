@@ -4,21 +4,20 @@ export default function Form() {
   const [user, setUser] = useState({
     Name: "",
     Email: "",
-    Phone_number: "",
-    Phone_type: "",
+    PhoneNumber: "",
+    PhoneType: "",
     Staff: "",
     Bio: "",
     Sign_up_for_email_notifications: ""
   });
 
   const handleChange = (field) => {
-    return (e) => {
-      const value = e.target.value;
+    return ((e) => {
       setUser({
         ...user,
-        [field]: value
+        [field]: e.target.value;
       });
-    };
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -31,13 +30,13 @@ export default function Form() {
     // email validation
     if (!user.Email || !(user.Email.split("@").length === 2)) currentErrors["emailError"] = "Email is invalid.";
     // phone number validation
-    if (!(user.Phone_number.length === 10)) currentErrors["phoneError"] = "Phone number is invalid.";
+    if (!(user.PhoneNumber.length === 10)) currentErrors["phoneError"] = "PhoneNumber is invalid.";
     const nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-    for (let char of user.Phone_number) {
-        if (!nums.includes(char)) currentErrors["phoneError"] = "Phone number is invalid.";
+    for (let char of user.PhoneNumber) {
+        if (!nums.includes(char)) currentErrors["phoneError"] = "PhoneNumber is invalid.";
     }
     // phone type validation
-    if (user.Phone_number && !user.Phone_type) currentErrors["phoneTypeError"] = "Please select Phone type.";
+    if (user.PhoneNumber && !user.PhoneType) currentErrors["phoneTypeError"] = "Please select PhoneType.";
     // bio length validation
     if (user.Bio.length > 280) currentErrors["bioLengthError"] = "Bio has a character limit of 280.";
 
@@ -65,13 +64,13 @@ export default function Form() {
         <p>{errors["emailError"]}</p>
         <br />
 
-        <input type="text" placeholder="Phone number" value={user.Phone_number} onChange={handleChange("Phone_number")} />
+        <input type="text" placeholder="PhoneNumber" value={user.PhoneNumber} onChange={handleChange("PhoneNumber")} />
         <br />
         <p>{errors["phoneError"]}</p>
         <br />
 
-        <select name="Phone_type" value="Phone type" onChange={handleChange("Phone_type")}>
-          <option value="Phone type" disabled>Phone type</option>
+        <select name="PhoneType" value={user.PhoneType} onChange={handleChange("PhoneType")}>
+          <option value="PhoneType" disabled>PhoneType</option>
           <option value="Home">Home</option>
           <option value="Work">Work</option>
           <option value="Mobile">Mobile</option>
