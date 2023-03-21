@@ -1,10 +1,8 @@
-import Form from "./form";
+import Form from "./Form";
 
 function App() {
   return (
-    <>
-      <Form/>
-    </>
+    <Form/>
   );
 }
 
