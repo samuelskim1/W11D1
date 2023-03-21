@@ -36,7 +36,7 @@ export default function Form() {
         if (!nums.includes(char)) currentErrors["PhoneNumberError"] = "PhoneNumber is invalid.";
     }
     // phone type validation
-    if (user.PhoneNumber && !user.PhoneType) currentErrors["PhoneTypeError"] = "Select PhoneType.";
+    if (user.PhoneNumber && user.PhoneType === "PhoneType") currentErrors["PhoneTypeError"] = "Select PhoneType.";
     // bio length validation
     if (user.Bio.length > 280) currentErrors["BioLengthError"] = "Bio has a character limit of 280.";
 
