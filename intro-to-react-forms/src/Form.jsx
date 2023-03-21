@@ -5,7 +5,7 @@ export default function Form() {
     Name: "",
     Email: "",
     PhoneNumber: "",
-    PhoneType: "",
+    PhoneType: "PhoneType",
     Staff: "",
     Bio: "",
     Sign_up_for_email_notifications: ""
