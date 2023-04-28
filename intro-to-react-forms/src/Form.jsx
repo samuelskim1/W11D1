@@ -26,7 +26,7 @@ export default function Form() {
     const currentErrors = {};
 
     // name validation
-    if (!user.Name) currentErrors["NnameError"] = "Name is missing.";
+    if (!user.Name) currentErrors["NameError"] = "Name is missing.";
     // email validation
     if (!user.Email || user.Email.split("@").length !== 2) currentErrors["EmailError"] = "Email is invalid.";
     // phone number validation
